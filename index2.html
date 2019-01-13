@@ -44,7 +44,7 @@
                 camera.attachControl(canvas, false);
 
                 // The first parameter can be used to specify which mesh to import. Here we import all meshes
-                BABYLON.SceneLoader.ImportMesh("", "./assets/", "mq-9-reaper.obj", scene, function (newMeshes) {
+                BABYLON.SceneLoader.ImportMesh("", "./assets/", "mq-9-reaper.babylon", scene, function (newMeshes) {
                     // Set the target of the camera to the first imported mesh
                     camera.target = newMeshes[0];
                 });
@@ -56,7 +56,21 @@
 
                 // https://doc.babylonjs.com/how_to/glow_layer
                 var gl = new BABYLON.GlowLayer("glow", scene);
-                
+
+                var positionAnimation = new BABYLON.Animation("camPos", "radius", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+
+                var keys1 = [{
+                    frame : 0,
+                    value : 50
+                }, {
+                    frame : 100,
+                    value : 5
+                }];
+
+                positionAnimation.setKeys(keys1);
+                camera.animations.push(positionAnimation);
+                scene.beginAnimation(camera, 0, 1000, false, 1);
+     
                 // return the created scene
                 return scene;
             }
